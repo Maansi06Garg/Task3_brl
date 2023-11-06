@@ -1,4 +1,3 @@
-
 import 'dart:io';
 
 import 'package:flutter/material.dart';
@@ -10,10 +9,10 @@ import 'package:path_provider/path_provider.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 
 class ImageUp extends StatefulWidget {
-  final Function(String imageUrl) onFileChanged;
-  ImageUp({
-    required this.onFileChanged,
-});
+//   final Function(String imageUrl) onFileChanged;
+//   ImageUp({
+//     required this.onFileChanged,
+// });
 
   @override
   State<ImageUp> createState() => _ImageUpState();
@@ -26,15 +25,16 @@ class _ImageUpState extends State<ImageUp> {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        if(imageUrl==null)
+        // if(imageUrl==null)
           Icon(Icons.image,size: 60,color:Theme.of(context).primaryColor),
-        if(imageUrl!=null)
-          InkWell(
-            splashColor: Colors.transparent,
-            highlightColor: Colors.transparent,
-            onTap: ()=> _selectPhoto(),
-            child: Ink.image(image:AssetImage(""),),
-          ),
+          TextButton(onPressed:()=> _selectPhoto(),child: Text("Upload Pic"),),
+        // if(imageUrl!=null)
+        //   InkWell(
+        //     splashColor: Colors.transparent,
+        //     highlightColor: Colors.transparent,
+        //     onTap: ()=> _selectPhoto(),
+        //     child: Text("Upload pic")
+        //   ),
       ],
     );
   }
@@ -82,7 +82,7 @@ class _ImageUpState extends State<ImageUp> {
       setState(() {
         imageUrl=fileUrl;
       });
-      widget.onFileChanged(fileUrl);
+      // widget.onFileChanged(fileUrl);
     }
 }
 

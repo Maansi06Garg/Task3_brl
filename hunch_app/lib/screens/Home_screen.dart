@@ -45,7 +45,6 @@ class _HomeScreenState extends State<HomeScreen> {
       //   },
       //   child: Text("Image"),
       // ),
-    ),
     Chatpage(),
     Container(),
 
