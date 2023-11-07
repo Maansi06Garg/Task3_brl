@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hunch_app/Chatpage.dart';
+import 'package:hunch_app/my%20polls/polls.dart';
 import 'package:hunch_app/screens/LoginPage.dart';
 import 'package:hunch_app/auth_service.dart';
 import 'package:hunch_app/chat_page.dart';
@@ -28,13 +29,13 @@ class _HomeScreenState extends State<HomeScreen> {
 
   final List<Widget> _screens = [
     Container(
-      child: CircularProgressIndicator(),
+      child: const CircularProgressIndicator(),
     ),
     Container(
       color: Colors.amber,
     ),
-    Container(),
-    Chatpage(),
+    MyPoll(),
+    const Chatpage(),
     Container(),
 
 
@@ -88,7 +89,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   },
                   itemBuilder: (BuildContext context) {
                     return <PopupMenuEntry<MenuAction>>[
-                      PopupMenuItem<MenuAction>(
+                      const PopupMenuItem<MenuAction>(
                           child: Text('signout'),
                           value: MenuAction.signUserOut),
                     ];
@@ -111,7 +112,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   TextSpan(
                     text: "unch App",
                     style: GoogleFonts.ubuntu(
-                      textStyle: TextStyle(
+                      textStyle: const TextStyle(
                         fontSize: 24,
                         fontWeight: FontWeight.bold,
                         color: Colors.black
