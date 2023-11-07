@@ -69,7 +69,9 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      
       debugShowCheckedModeBanner: false,
+    
       title: 'Hunch App',
       home: StreamBuilder(
         stream: _auth.authStateChanges(),
