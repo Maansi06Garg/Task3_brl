@@ -5,7 +5,7 @@ import 'package:hunch_app/screens/Home_screen.dart';
 import 'package:hunch_app/screens/LoginPage.dart';
 import 'package:hunch_app/firebase_options.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-
+import 'package:hunch_app/Post/Pic.dart';
 
 // // void main()  async{
 // //   WidgetsFlutterBinding.ensureInitialized();
