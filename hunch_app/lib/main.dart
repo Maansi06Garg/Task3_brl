@@ -6,6 +6,56 @@ import 'package:hunch_app/screens/LoginPage.dart';
 import 'package:hunch_app/firebase_options.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
+import 'package:hunch_app/Post/Pic.dart';
+
+// // void main()  async{
+// //   WidgetsFlutterBinding.ensureInitialized();
+// //   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+// //   runApp(const MyApp());
+// // }
+
+
+// void main() async {
+//   WidgetsFlutterBinding.ensureInitialized();
+//   await Firebase.initializeApp(
+//     options: DefaultFirebaseOptions.currentPlatform,
+//   );
+
+//   runApp(MyApp());
+// }
+
+// class MyApp extends StatelessWidget {
+//   const MyApp({super.key});
+
+//   @override
+//   Widget build(BuildContext context) {
+//     return MaterialApp(
+//       debugShowCheckedModeBanner: false,
+//       home: StreamBuilder(
+//         stream: _auth.authStateChanges(),
+//         builder: (context, snapshot) {
+//           if (snapshot.connectionState == ConnectionState.waiting) {
+//             return CircularProgressIndicator();
+//           } else {
+//             // Show loading indicator or splash screen while checking authentication state
+//             if (snapshot.hasData) {
+//               // User is authenticated, navigate to Homepage
+//               return HomeScreen();
+//             } else {
+//               // User is not authenticated, navigate to Login page
+//               return Login();
+//             }
+//           }
+//         },
+//       ),
+//     );
+//   }
+// }
+
+
+
+
+
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
@@ -21,7 +71,9 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      
       debugShowCheckedModeBanner: false,
+    
       title: 'Hunch App',
       home: StreamBuilder(
         stream: _auth.authStateChanges(),

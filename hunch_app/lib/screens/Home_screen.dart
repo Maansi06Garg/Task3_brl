@@ -3,6 +3,9 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hunch_app/chat/Chatpage.dart';
+import 'package:hunch_app/Chatpage.dart';
+import 'package:hunch_app/Post/Pic.dart';
+import 'package:hunch_app/my%20polls/polls.dart';
 import 'package:hunch_app/screens/LoginPage.dart';
 import 'package:hunch_app/auth_service.dart';
 import 'package:hunch_app/chat/chat_page.dart';
@@ -24,7 +27,10 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  int _currentIndex = 0;
+
+   int _currentIndex = 0;
+   String imageUrl='';
+
 
   final List<Widget> _screens = [
     Container(
@@ -34,6 +40,22 @@ class _HomeScreenState extends State<HomeScreen> {
       color: Colors.amber,
     ),
     Container(),
+      // child: ElevatedButton(
+      //   onPressed: (){
+      //     onFileChanged:(imageUrl){
+      //       // setState(() {  });
+      //     };
+      //     // Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => ImageUp(onFileChanged:(imageUrl){} ),));
+      //   },
+      //   child: Text("Image"),
+      // ),
+    Chatpage(),
+
+    MyPoll(),
+    const Chatpage(),
+    Container(),
+
+
 
     Chatpage(),
     UserPage()
@@ -77,13 +99,14 @@ class _HomeScreenState extends State<HomeScreen> {
                   },
                   itemBuilder: (BuildContext context) {
                     return <PopupMenuEntry<MenuAction>>[
-                      PopupMenuItem<MenuAction>(
+                      const PopupMenuItem<MenuAction>(
                           child: Text('signout'),
                           value: MenuAction.signUserOut),
                     ];
                   },
                 ),
               ],
+
               title: RichText(
                   text: TextSpan(
                       text: "H",
@@ -102,6 +125,28 @@ class _HomeScreenState extends State<HomeScreen> {
                             fontSize: 24,
                             fontWeight: FontWeight.bold,
                             color: Colors.black),
+
+          title: RichText(
+            text: 
+              TextSpan(
+                text: "H",
+                style: GoogleFonts.ubuntu(
+                  textStyle: const TextStyle(
+                    color: Color.fromARGB(255, 224, 2, 2),
+                    fontSize: 24,
+                    fontWeight: FontWeight.bold,
+    
+                  ),
+                ),
+                children: <TextSpan>[
+                  TextSpan(
+                    text: "unch App",
+                    style: GoogleFonts.ubuntu(
+                      textStyle: const TextStyle(
+                        fontSize: 24,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.black
+
                       ),
                     ),
                   ])),
