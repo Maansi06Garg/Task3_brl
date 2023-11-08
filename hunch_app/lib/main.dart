@@ -1,10 +1,11 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:hunch_app/Chatpage.dart';
+import 'package:hunch_app/chat/Chatpage.dart';
 import 'package:hunch_app/screens/Home_screen.dart';
 import 'package:hunch_app/screens/LoginPage.dart';
 import 'package:hunch_app/firebase_options.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+
 import 'package:hunch_app/Post/Pic.dart';
 
 // // void main()  async{
@@ -50,6 +51,7 @@ import 'package:hunch_app/Post/Pic.dart';
 //     );
 //   }
 // }
+
 
 
 

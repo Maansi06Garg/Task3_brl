@@ -42,6 +42,7 @@ dependencies:
   http: ^1.1.0
   cloud_firestore: ^4.12.2
   provider: ^6.0.5
+
   flutter_polls: ^0.1.5
 
   image_cropper: ^5.0.0
