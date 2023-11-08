@@ -317,126 +317,718 @@
 
 
 
+// import 'package:flutter/material.dart';
+// import 'package:flutter_polls/flutter_polls.dart';
+// import 'package:hunch_app/my%20polls/pollsclass.dart';
+
+// class MyPoll extends StatefulWidget {
+//   const MyPoll({Key? key}) : super(key: key);
+
+//   @override
+//   State<MyPoll> createState() => _MyPollState();
+// }
+
+// class _MyPollState extends State<MyPoll> {
+//   @override
+//   Widget build(BuildContext context) {
+//     return Scaffold(
+//       floatingActionButton: FloatingActionButton(
+//         backgroundColor: const Color.fromARGB(255, 231, 166, 120),
+//         onPressed: () {
+//           Navigator.pushNamed(context, '/createpoll');
+//         },
+//         child: const Icon(Icons.add),
+//       ),
+//       backgroundColor: Colors.black,
+//       body: Container(
+        
+//         height: MediaQuery.of(context).size.height,
+//         padding: const EdgeInsets.all(20),
+//         child: ListView.builder(
+//           itemCount: polls().length,
+//           itemBuilder: (BuildContext context, int index) {
+//             final Map<String, dynamic> poll = polls()[index];
+
+//             final int days = DateTime(
+//               poll['end_date'].year,
+//               poll['end_date'].month,
+//               poll['end_date'].day,
+//             )
+//                 .difference(DateTime(
+//                   DateTime.now().year,
+//                   DateTime.now().month,
+//                   DateTime.now().day,
+//                 ))
+//                 .inDays;
+
+//             return Container(
+//               margin: const EdgeInsets.only(bottom: 20),
+//               child: FlutterPolls(
+//                 votedProgressColor: Colors.grey.withOpacity(0.3),
+//                 votedBackgroundColor: const Color.fromARGB(255, 193, 192, 192).withOpacity(0.5),
+//                 votesTextStyle: const TextStyle(
+//                   fontSize: 14,
+//                   fontWeight: FontWeight.w600,
+//                 ),
+//                 // votedPercentageTextStyle: const TextStyle(
+//                 //   fontSize: 14,
+//                 //   fontWeight: FontWeight.w600,
+//                 // ),
+
+//                 votedCheckmark: const Icon(
+//                   Icons.check_circle,
+//                   color: Color.fromARGB(255, 0, 0, 0),
+//                   size: 18,
+//                 ),
+//                 pollOptionsFillColor: Colors.grey,
+//                 voteInProgressColor: Colors.grey,
+//                 pollOptionsSplashColor: Colors.grey,
+//                 leadingVotedProgessColor:Color.fromARGB(255, 238, 186, 123),
+                
+//                 pollId: poll['id'].toString(),
+               
+//                 onVoted: (PollOption pollOption, int newTotalVotes) async {
+//                   await Future.delayed(const Duration(seconds: 1));
+//                   return true;
+//                 },
+//                 pollEnded: days < 0,
+//                 pollTitle: Align(
+//                   alignment: Alignment.centerLeft,
+//                   child: Text(
+//                     poll['question'],
+//                     style: const TextStyle(
+//                       fontSize: 14,
+//                       fontWeight: FontWeight.w600,
+//                       color: Colors.white,
+//                     ),
+//                   ),
+//                 ),
+//                 pollOptions: List<PollOption>.from(
+//                   poll['options'].map(
+//                     (option) {
+//                       var a = PollOption(
+//                         id: option['id'].toString(),
+//                         title: Text(
+//                           option['title'],
+//                           style: const TextStyle(
+//                             fontSize: 14,
+//                             fontWeight: FontWeight.w600,
+//                             //color: Colors.white,
+//                           ),
+//                         ),
+//                         votes: option['votes'],
+//                       );
+//                       return a;
+//                     },
+//                   ),
+//                 ),
+//                 votedPercentageTextStyle: const TextStyle(
+//                   fontSize: 14,
+//                   fontWeight: FontWeight.w600,
+                  
+//                 ),
+//                 metaWidget: Row(
+//                   children: [
+//                     const SizedBox(width: 6),
+//                     const Text(
+//                       '•',
+//                     ),
+//                     const SizedBox(
+//                       width: 6,
+//                     ),
+//                     Text(
+//                       days < 0 ? "ended" : "ends $days days",
+//                     ),
+//                   ],
+//                 ),
+//               ),
+//             );
+//           },
+//         ),
+//       ),
+//     );
+//   }
+// }
+
+
+
+
+// import 'package:firebase_auth/firebase_auth.dart';
+// import 'package:flutter/material.dart';
+// import 'package:flutter_polls/flutter_polls.dart';
+// import 'package:cloud_firestore/cloud_firestore.dart';
+
+// class MyPoll extends StatefulWidget {
+//   const MyPoll({Key? key}) : super(key: key);
+
+//   @override
+//   State<MyPoll> createState() => _MyPollState();
+// }
+
+// class _MyPollState extends State<MyPoll> {
+
+  
+
+//  Future<List<Map<String, dynamic>>>? fetchPolls() async {
+//   final QuerySnapshot snapshot = await FirebaseFirestore.instance
+//       .collection('polls')
+//       .get();
+
+//   final List<Map<String, dynamic>> polls = snapshot.docs
+//       .map((doc) => doc.data() as Map<String, dynamic>)
+//       .toList();
+
+//   return polls;
+// }
+
+
+//   @override
+//   Widget build(BuildContext context) {
+//     return Scaffold(
+//       floatingActionButton: FloatingActionButton(
+//         backgroundColor: const Color.fromARGB(255, 231, 166, 120),
+//         onPressed: () {
+//           Navigator.pushNamed(context, '/createpoll');
+//         },
+//         child: const Icon(Icons.add),
+//       ),
+//       backgroundColor: Colors.black,
+//       body: FutureBuilder<List<Map<String, dynamic>>>(
+//       future: fetchPolls() as Future<List<Map<String, dynamic>>>?,
+//       builder: (context, snapshot) {
+//           if (snapshot.connectionState == ConnectionState.waiting) {
+//             return const Center(child: CircularProgressIndicator());
+//           }
+
+//           if (snapshot.hasError) {
+//             return Center(child: Text('Error: ${snapshot.error}'));
+//           }
+
+//           if (!snapshot.hasData || snapshot.data!.isEmpty) {
+//             return const Center(child: Text('No polls available.'));
+//           }
+
+//           // final polls = snapshot.data!;
+
+//          //final List<Map<String, dynamic>> polls = snapshot.data!;
+//           final Map<String, dynamic> polls = snapshot.docs.fold({}, (map, doc) {
+//           final data = doc.data() as Map<String, dynamic>;
+//           final id = doc.id;
+//           map[id] = data;
+//           return map;
+// });
+//           // return ListView.builder(
+//           //   itemCount: polls.length,
+//           //   itemBuilder: (BuildContext context, int index) {
+//           //     final Map<String, dynamic> poll = polls[index];
+
+//           return ListView.builder(
+//   itemCount: polls.length,
+//   itemBuilder: (BuildContext context, int index) {
+//     final Map<String, dynamic> poll = polls.values.elementAt(index);
+
+
+
+//               // final int days = DateTime(
+//               //   poll['end_date'].year,
+//               //   poll['end_date'].month,
+//               //   poll['end_date'].day,
+//               // )
+//               //     .difference(DateTime(
+//               //       DateTime.now().year,
+//               //       DateTime.now().month,
+//               //       DateTime.now().day,
+//               //     ))
+//               //     .inDays;
+
+//               return Container(
+//                 margin: const EdgeInsets.only(bottom: 20),
+//                 child: FlutterPolls(
+//                   votedProgressColor: Colors.grey.withOpacity(0.3),
+//                   votedBackgroundColor: const Color.fromARGB(255, 193, 192, 192).withOpacity(0.5),
+//                   votesTextStyle: const TextStyle(
+//                     fontSize: 14,
+//                     fontWeight: FontWeight.w600,
+//                   ),
+//                   votedCheckmark: const Icon(
+//                     Icons.check_circle,
+//                     color: Color.fromARGB(255, 0, 0, 0),
+//                     size: 18,
+//                   ),
+//                   pollOptionsFillColor: Colors.grey,
+//                   voteInProgressColor: Colors.grey,
+//                   pollOptionsSplashColor: Colors.grey,
+//                   leadingVotedProgessColor: const Color.fromARGB(255, 238, 186, 123),
+//                   pollId: poll['id'].toString(),
+//                   onVoted: (PollOption pollOption, int newTotalVotes) async {
+//                     await Future.delayed(const Duration(seconds: 1));
+//                     return true;
+//                   },
+//                  // pollEnded: days < 0,
+//                   pollTitle: Align(
+//                     alignment: Alignment.centerLeft,
+//                     child: Text(
+//                       poll['question'],
+//                       style: const TextStyle(
+//                         fontSize: 14,
+//                         fontWeight: FontWeight.w600,
+//                         color: Colors.white,
+//                       ),
+//                     ),
+//                   ),
+//                   pollOptions: List<PollOption>.from(
+//                     poll['options'].map(
+//                       (option) {
+//                         return PollOption(
+//                           id: option['id'].toString(),
+//                           title: Text(
+//                             option['title'],
+//                             style: const TextStyle(
+//                               fontSize: 14,
+//                               fontWeight: FontWeight.w600,
+//                             ),
+//                           ),
+//                           votes: option['votes'],
+//                         );
+//                       },
+//                     ),
+//                   ),
+//                   votedPercentageTextStyle: const TextStyle(
+//                     fontSize: 14,
+//                     fontWeight: FontWeight.w600,
+//                   ),
+//                   metaWidget: const Row(
+//                     children: [
+//                       SizedBox(width: 6),
+//                       Text('•'),
+//                       SizedBox(width: 6),
+//                       //Text(days < 0 ? "ended" : "ends $days days"),
+//                     ],
+//                   ),
+//                 ),
+//               );
+//             },
+//           );
+//         },
+//       ),
+//     );
+//   }
+
+//   // Future<List<Map<String, dynamic>>?> fetchPolls() async {
+//   //   final QuerySnapshot snapshot = await FirebaseFirestore.instance
+//   //       .collection('polls')
+//   //       .get();
+
+//   //   final List<Map<String, dynamic>> polls = snapshot.docs
+//   //       .map((doc) => doc.data() as Map<String, dynamic>)
+//   //       .toList();
+
+//   //   return polls;
+//   // }
+// }
+
+
+
+
+
+
+
+
+
+// // import 'package:cloud_firestore/cloud_firestore.dart';
+// // import 'package:firebase_auth/firebase_auth.dart';
+// // import 'package:flutter/material.dart';
+
+// // class PollingApp extends StatefulWidget {
+// //   @override
+// //   _PollingAppState createState() => _PollingAppState();
+// // }
+
+// // class _PollingAppState extends State<PollingApp> {
+// //   final FirebaseAuth _auth = FirebaseAuth.instance;
+// //   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+
+// //   @override
+// //   Widget build(BuildContext context) {
+// //     return Scaffold(
+// //       appBar: AppBar(
+// //         title: Text('Polling App'),
+// //       ),
+// //       body: Column(
+// //         children: [
+// //           ElevatedButton(
+// //             onPressed: () {
+// //               Navigator.push(
+// //                 context,
+// //                 MaterialPageRoute(builder: (context) => CreatePollPage()),
+// //               );
+// //             },
+// //             child: Text('Create Poll'),
+// //           ),
+// //           PollList(),
+// //         ],
+// //       ),
+// //     );
+// //   }
+// // }
+
+
+
+
+
+
+// import 'package:firebase_auth/firebase_auth.dart';
+// import 'package:flutter/material.dart';
+// import 'package:flutter_polls/flutter_polls.dart';
+// import 'package:cloud_firestore/cloud_firestore.dart';
+
+// class MyPoll extends StatefulWidget {
+//   const MyPoll({Key? key}) : super(key: key);
+
+//   @override
+//   State<MyPoll> createState() => _MyPollState();
+// }
+
+// class _MyPollState extends State<MyPoll> {
+
+//    String? userId; // Variable to store the user's ID
+
+//   @override
+//   void initState() {
+//     super.initState();
+//     fetchUserId();
+//   }
+
+//   Future<void> fetchUserId() async {
+//     final user = FirebaseAuth.instance.currentUser;
+//     if (user != null) {
+//       final userDoc =
+//           await FirebaseFirestore.instance.collection('users').doc(user.uid).get();
+//       if (userDoc.exists) {
+//         final fetchedUserId = userDoc.data()?['userId'];
+//         setState(() {
+//           userId = fetchedUserId;
+//         });
+//       }
+//     }
+//   }
+
+// //   Future<String?> fetchUserId() async {
+// //   final user = FirebaseAuth.instance.currentUser;
+// //   if (user != null) {
+// //     final userDoc = await FirebaseFirestore.instance.collection('users').doc(user.uid).get();
+// //     if (userDoc.exists) {
+// //       final userId = userDoc.data()?['userId'];
+// //       return userId;
+// //     }
+// //   }
+// //   return null; // User not found or not logged in
+// // }
+//   // Replace 'userID' with the actual user's ID
+//   //  String userId = 'tdf0aAuP4aWAFjRaKnR5SrgduBx1';
+
+//   Future<List<Map<String, dynamic>>> fetchUserPolls() async {
+//     final QuerySnapshot snapshot = await FirebaseFirestore.instance
+//         .collection('polls')
+//         .where(userId as Object, isEqualTo: userId)
+//         .get();
+
+//     final List<Map<String, dynamic>> userPolls = snapshot.docs
+//         .map((doc) => doc.data() as Map<String, dynamic>)
+//         .toList();
+
+//     return userPolls;
+//   }
+
+//   @override
+//   Widget build(BuildContext context) {
+//     return Scaffold(
+//       floatingActionButton: FloatingActionButton(
+//         backgroundColor: const Color.fromARGB(255, 231, 166, 120),
+//         onPressed: () {
+//           Navigator.pushNamed(context, '/createpoll');
+//         },
+//         child: const Icon(Icons.add),
+//       ),
+//       backgroundColor: Colors.black,
+//       body: FutureBuilder<List<Map<String, dynamic>>>(
+//         future: fetchUserPolls(),
+//         builder: (context, snapshot) {
+//           if (snapshot.connectionState == ConnectionState.waiting) {
+//             return const Center(child: CircularProgressIndicator());
+//           }
+
+//           if (snapshot.hasError) {
+//             return Center(child: Text('Error: ${snapshot.error}'));
+//           }
+
+//           if (!snapshot.hasData || snapshot.data!.isEmpty) {
+//             return const Center(child: Text('No polls available.'));
+//           }
+
+//           final userPolls = snapshot.data!;
+
+//           return ListView.builder(
+//             itemCount: userPolls.length,
+//             itemBuilder: (BuildContext context, int index) {
+//               final Map<String, dynamic> poll = userPolls[index];
+
+//               // final int days = DateTime(
+//               //   poll['end_date'].year,
+//               //   poll['end_date'].month,
+//               //   poll['end_date'].day,
+//               // )
+//               //     .difference(DateTime(
+//               //       DateTime.now().year,
+//               //       DateTime.now().month,
+//               //       DateTime.now().day,
+//               //     ))
+//               //     .inDays;
+
+//               return Container(
+//                 margin: const EdgeInsets.only(bottom: 20),
+//                 child: FlutterPolls(
+//                   votedProgressColor: Colors.grey.withOpacity(0.3),
+//                   votedBackgroundColor:
+//                       const Color.fromARGB(255, 193, 192, 192).withOpacity(0.5),
+//                   votesTextStyle: const TextStyle(
+//                     fontSize: 14,
+//                     fontWeight: FontWeight.w600,
+//                   ),
+//                   votedCheckmark: const Icon(
+//                     Icons.check_circle,
+//                     color: Color.fromARGB(255, 0, 0, 0),
+//                     size: 18,
+//                   ),
+//                   pollOptionsFillColor: Colors.grey,
+//                   voteInProgressColor: Colors.grey,
+//                   pollOptionsSplashColor: Colors.grey,
+//                   leadingVotedProgessColor: const Color.fromARGB(255, 238, 186, 123),
+//                   pollId: poll['id'].toString(),
+//                   onVoted: (PollOption pollOption, int newTotalVotes) async {
+//                     await Future.delayed(const Duration(seconds: 1));
+//                     return true;
+//                   },
+//                   pollTitle: Align(
+//                     alignment: Alignment.centerLeft,
+//                     child: Text(
+//                       poll['question'],
+//                       style: const TextStyle(
+//                         fontSize: 14,
+//                         fontWeight: FontWeight.w600,
+//                         color: Colors.white,
+//                       ),
+//                     ),
+//                   ),
+//                   pollOptions: List<PollOption>.from(
+//                     poll['options'].map(
+//                       (option) {
+//                         var a = PollOption(
+//                           id: option['id'].toString(),
+//                           title: Text(
+//                             option['title'],
+//                             style: const TextStyle(
+//                               fontSize: 14,
+//                               fontWeight: FontWeight.w600,
+//                             ),
+//                           ),
+//                           votes: option['votes'],
+//                         );
+//                         return a;
+//                       },
+//                     ),
+//                   ),
+//                   votedPercentageTextStyle: const TextStyle(
+//                     fontSize: 14,
+//                     fontWeight: FontWeight.w600,
+//                   ),
+//                   metaWidget: Row(
+//                     children: [
+//                       const SizedBox(width: 6),
+//                       const Text('•'),
+//                       const SizedBox(
+//                         width: 6,
+//                       ),
+//                       //Text(
+//                        // days < 0 ? "ended" : "ends $days days",
+//                      // ),
+//                     ],
+//                   ),
+//                 ),
+//               );
+//             },
+//           );
+//         },
+//       ),
+//     );
+//   }
+// }
+
+
+
+
 import 'package:flutter/material.dart';
-import 'package:flutter_polls/flutter_polls.dart';
-import 'package:hunch_app/my%20polls/pollsclass.dart';
+import 'package:hunch_app/my%20polls/createpoll.dart';
 
-class MyPoll extends StatefulWidget {
-  const MyPoll({Key? key}) : super(key: key);
+/// actual code 
+/// 
+/// 
+/// 
+/// 
+/// 
 
-  @override
-  State<MyPoll> createState() => _MyPollState();
-}
+// import 'package:flutter/material.dart';
+// import 'package:flutter_polls/flutter_polls.dart';
+// import 'package:hunch_app/my%20polls/pollsclass.dart';
 
-class _MyPollState extends State<MyPoll> {
+// class MyPoll extends StatefulWidget {
+//   const MyPoll({Key? key}) : super(key: key);
+
+//   @override
+//   State<MyPoll> createState() => _MyPollState();
+// }
+
+// class _MyPollState extends State<MyPoll> {
+//   @override
+//   Widget build(BuildContext context) {
+//     return Scaffold(
+//       floatingActionButton: FloatingActionButton(
+//         backgroundColor: const Color.fromARGB(255, 231, 166, 120),
+//         onPressed: () {
+//           Navigator.pushNamed(context, '/createpoll');
+//         },
+//         child: const Icon(Icons.add),
+//       ),
+//       backgroundColor: Colors.black,
+//       body: Container(
+        
+//         height: MediaQuery.of(context).size.height,
+//         padding: const EdgeInsets.all(20),
+//         child: ListView.builder(
+//           itemCount: polls().length,
+//           itemBuilder: (BuildContext context, int index) {
+//             final Map<String, dynamic> poll = polls()[index];
+
+//             final int days = DateTime(
+//               poll['end_date'].year,
+//               poll['end_date'].month,
+//               poll['end_date'].day,
+//             )
+//                 .difference(DateTime(
+//                   DateTime.now().year,
+//                   DateTime.now().month,
+//                   DateTime.now().day,
+//                 ))
+//                 .inDays;
+
+//             return Container(
+//               margin: const EdgeInsets.only(bottom: 20),
+//               child: FlutterPolls(
+//                 votedProgressColor: Colors.grey.withOpacity(0.3),
+//                 votedBackgroundColor: const Color.fromARGB(255, 193, 192, 192).withOpacity(0.5),
+//                 votesTextStyle: const TextStyle(
+//                   fontSize: 14,
+//                   fontWeight: FontWeight.w600,
+//                 ),
+//                 // votedPercentageTextStyle: const TextStyle(
+//                 //   fontSize: 14,
+//                 //   fontWeight: FontWeight.w600,
+//                 // ),
+
+//                 votedCheckmark: const Icon(
+//                   Icons.check_circle,
+//                   color: Color.fromARGB(255, 0, 0, 0),
+//                   size: 18,
+//                 ),
+//                 pollOptionsFillColor: Colors.grey,
+//                 voteInProgressColor: Colors.grey,
+//                 pollOptionsSplashColor: Colors.grey,
+//                 leadingVotedProgessColor:Color.fromARGB(255, 238, 186, 123),
+                
+//                 pollId: poll['id'].toString(),
+               
+//                 onVoted: (PollOption pollOption, int newTotalVotes) async {
+//                   await Future.delayed(const Duration(seconds: 1));
+//                   return true;
+//                 },
+//                 pollEnded: days < 0,
+//                 pollTitle: Align(
+//                   alignment: Alignment.centerLeft,
+//                   child: Text(
+//                     poll['question'],
+//                     style: const TextStyle(
+//                       fontSize: 14,
+//                       fontWeight: FontWeight.w600,
+//                       color: Colors.white,
+//                     ),
+//                   ),
+//                 ),
+//                 pollOptions: List<PollOption>.from(
+//                   poll['options'].map(
+//                     (option) {
+//                       var a = PollOption(
+//                         id: option['id'].toString(),
+//                         title: Text(
+//                           option['title'],
+//                           style: const TextStyle(
+//                             fontSize: 14,
+//                             fontWeight: FontWeight.w600,
+//                             //color: Colors.white,
+//                           ),
+//                         ),
+//                         votes: option['votes'],
+//                       );
+//                       return a;
+//                     },
+//                   ),
+//                 ),
+//                 votedPercentageTextStyle: const TextStyle(
+//                   fontSize: 14,
+//                   fontWeight: FontWeight.w600,
+                  
+//                 ),
+//                 metaWidget: Row(
+//                   children: [
+//                     const SizedBox(width: 6),
+//                     const Text(
+//                       '•',
+//                     ),
+//                     const SizedBox(
+//                       width: 6,
+//                     ),
+//                     Text(
+//                       days < 0 ? "ended" : "ends $days days",
+//                     ),
+//                   ],
+//                 ),
+//               ),
+//             );
+//           },
+//         ),
+//       ),
+//     );
+//   }
+// }
+
+
+
+class MyPoll extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.black,
-      body: Container(
-        height: MediaQuery.of(context).size.height,
-        padding: const EdgeInsets.all(20),
-        child: ListView.builder(
-          itemCount: polls().length,
-          itemBuilder: (BuildContext context, int index) {
-            final Map<String, dynamic> poll = polls()[index];
-
-            final int days = DateTime(
-              poll['end_date'].year,
-              poll['end_date'].month,
-              poll['end_date'].day,
-            )
-                .difference(DateTime(
-                  DateTime.now().year,
-                  DateTime.now().month,
-                  DateTime.now().day,
-                ))
-                .inDays;
-
-            return Container(
-              margin: const EdgeInsets.only(bottom: 20),
-              child: FlutterPolls(
-                votedProgressColor: Colors.grey.withOpacity(0.3),
-                votedBackgroundColor: const Color.fromARGB(255, 193, 192, 192).withOpacity(0.5),
-                votesTextStyle: const TextStyle(
-                  fontSize: 14,
-                  fontWeight: FontWeight.w600,
-                ),
-                // votedPercentageTextStyle: const TextStyle(
-                //   fontSize: 14,
-                //   fontWeight: FontWeight.w600,
-                // ),
-
-                votedCheckmark: const Icon(
-                  Icons.check_circle,
-                  color: Color.fromARGB(255, 0, 0, 0),
-                  size: 18,
-                ),
-                pollOptionsFillColor: Colors.grey,
-                voteInProgressColor: Colors.grey,
-                pollOptionsSplashColor: Colors.grey,
-                leadingVotedProgessColor:Color.fromARGB(255, 238, 186, 123),
-                
-                pollId: poll['id'].toString(),
-               
-                onVoted: (PollOption pollOption, int newTotalVotes) async {
-                  await Future.delayed(const Duration(seconds: 1));
-                  return true;
-                },
-                pollEnded: days < 0,
-                pollTitle: Align(
-                  alignment: Alignment.centerLeft,
-                  child: Text(
-                    poll['question'],
-                    style: const TextStyle(
-                      fontSize: 14,
-                      fontWeight: FontWeight.w600,
-                      color: Colors.white,
-                    ),
-                  ),
-                ),
-                pollOptions: List<PollOption>.from(
-                  poll['options'].map(
-                    (option) {
-                      var a = PollOption(
-                        id: option['id'].toString(),
-                        title: Text(
-                          option['title'],
-                          style: const TextStyle(
-                            fontSize: 14,
-                            fontWeight: FontWeight.w600,
-                            //color: Colors.white,
-                          ),
-                        ),
-                        votes: option['votes'],
-                      );
-                      return a;
-                    },
-                  ),
-                ),
-                votedPercentageTextStyle: const TextStyle(
-                  fontSize: 14,
-                  fontWeight: FontWeight.w600,
-                  
-                ),
-                metaWidget: Row(
-                  children: [
-                    const SizedBox(width: 6),
-                    const Text(
-                      '•',
-                    ),
-                    const SizedBox(
-                      width: 6,
-                    ),
-                    Text(
-                      days < 0 ? "ended" : "ends $days days",
-                    ),
-                  ],
-                ),
-              ),
-            );
-          },
-        ),
+      appBar: AppBar(
+        title: Text('My Polls'),
+      ),
+      body: PollList(), 
+      floatingActionButton: FloatingActionButton(
+        backgroundColor: const Color.fromARGB(255, 231, 166, 120),
+        onPressed: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => CreatePollPage()),
+          );
+        },
+        child: const Icon(Icons.add),
       ),
     );
   }
