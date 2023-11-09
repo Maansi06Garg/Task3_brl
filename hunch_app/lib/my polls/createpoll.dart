@@ -175,35 +175,84 @@ class _CreatePollPageState extends State<CreatePollPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+     // backgroundColor: Color.fromARGB(110, 45, 45, 45),
       appBar: AppBar(
-        title: const Text('Create Poll'),
+      //  toolbarHeight: 70,
+        backgroundColor: Color.fromARGB(255, 0, 0, 50),
+        title: const Text('Create Poll' , 
+        style: TextStyle(
+          // color: Colors.black,
+          fontSize: 20,
+          fontWeight: FontWeight.bold,
+        ) 
+        
+        
+        ,)
       ),
-      body: Column(
-        children: [
-          TextField(
-            controller: questionController,
-            decoration: const InputDecoration(labelText: 'Poll Question'),
-          ),
-          TextField(
-            controller: optionController,
-            decoration: const InputDecoration(labelText: 'Option'),
-          ),
-          ElevatedButton(
-            onPressed: () {
-              if (optionController.text.isNotEmpty) {
-                options.add(optionController.text);
-                optionController.clear();
-                setState(() {}); 
-              }
-            },
-            child: const Text('Add Option'),
-          ),
-          ElevatedButton(
-            onPressed: createPoll,
-            child: const Text('Create Poll'),
-          ),
-          Text('Options: $options'),
-        ],
+      body: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Column(
+          children: [
+
+            const SizedBox(
+              height: 30,
+            ),
+            MyTextField(hintText: 'Enter your question', inputType: TextInputType.name, labelText2: 'Poll Question', secure1: false, capital: TextCapitalization.words, nameController1: questionController),
+            // TextField(
+
+            //   controller: questionController,
+            //   decoration: const InputDecoration(labelText: 'Poll Question'),
+            // ),
+            // TextField(
+            //   controller: optionController,
+            //   decoration: const InputDecoration(labelText: 'Option'),
+            // ),
+           const SizedBox(
+              height: 10,
+            ),
+             MyTextField(hintText: 'Enter your Options', inputType: TextInputType.name, labelText2: 'Options', secure1: false, capital: TextCapitalization.words, nameController1: optionController),
+            // ElevatedButton(
+            //   onPressed: () {
+            //     if (optionController.text.isNotEmpty) {
+            //       options.add(optionController.text);
+            //       optionController.clear();
+            //       setState(() {}); 
+            //     }
+            //   },
+            //   child: const Text('Add Option'),
+            // ),
+            const SizedBox(
+              height: 15,
+            ),
+            Padding(
+              padding: const EdgeInsets.only(left: 40, right: 40),
+              child: Buttonxd(buttonName: 'Add Options', onTap: () {
+                  if (optionController.text.isNotEmpty) {
+                    options.add(optionController.text);
+                    optionController.clear();
+                    setState(() {}); 
+                  }
+                }, bgColor: Colors.black, textColor: Colors.white),
+            ),
+            // ElevatedButton(
+            //   onPressed: createPoll,
+            //   child: const Text('Create Poll'),
+            // ),
+
+            const SizedBox(
+              height : 10
+            ),
+
+            Padding(
+              padding: const EdgeInsets.only(left: 40, right: 40),
+              child: Buttonxd(buttonName: 'Create Poll', onTap: createPoll, bgColor: Colors.black, textColor: Colors.white),
+            ),
+            const SizedBox(
+              height : 200
+            ),
+            Text('Options: $options'),
+          ],
+        ),
       ),
     );
   }
@@ -264,7 +313,7 @@ class PollDetails extends StatefulWidget {
 class _PollDetailsState extends State<PollDetails> {
   String? selectedOption;
   int totalVotes = 0;
-  String userId = "tdf0aAuP4aWAFjRaKnR5SrgduBx1"; // Replace with the actual user ID
+  String userId = "tdf0aAuP4aWAFjRaKnR5SrgduBx1"; 
   bool hasVoted = false;
 
   @override
@@ -296,42 +345,89 @@ class _PollDetailsState extends State<PollDetails> {
     });
   }
 
+  // Future<void> submitVote() async {
+  //   if (selectedOption != null && userId != null && !hasVoted) {
+  //     // Check if the user has already voted
+  //     QuerySnapshot userVoteSnapshot = await FirebaseFirestore.instance
+  //         .collection('polls')
+  //         .doc(widget.pollData['documentID'])
+  //         .collection('votes')
+  //         .where('userId', isEqualTo: userId)
+  //         .get();
+
+  //     if (userVoteSnapshot.docs.isEmpty) {
+  //       // User hasn't voted yet, allow them to vote
+  //       await FirebaseFirestore.instance
+  //           .collection('polls')
+  //           .doc(widget.pollData['documentID'])
+  //           .collection('votes')
+  //           .add({
+  //         'option': selectedOption,
+  //         'votes': 1,
+  //         'userId': userId,
+  //       });
+
+  //       setState(() {
+  //         totalVotes++;
+  //         hasVoted = true;
+  //       });
+  //     } else {
+       
+
+  //       print('User has already voted for this poll.');
+  //     }
+  //   } else {
+  //     // Handle the case where userId is null or selectedOption is empty
+  //     print('Error: userId is null, selectedOption is empty, or user has already voted.');
+  //   }
+  // }
+
+
   Future<void> submitVote() async {
-    if (selectedOption != null && userId != null && !hasVoted) {
-      // Check if the user has already voted
-      QuerySnapshot userVoteSnapshot = await FirebaseFirestore.instance
+  if (selectedOption != null && userId != null && !hasVoted) {
+    // Check if the user has already voted
+    QuerySnapshot userVoteSnapshot = await FirebaseFirestore.instance
+        .collection('polls')
+        .doc(widget.pollData['documentID'])
+        .collection('votes')
+        .where('userId', isEqualTo: userId)
+        .get();
+
+    if (userVoteSnapshot.docs.isEmpty) {
+      await FirebaseFirestore.instance
           .collection('polls')
           .doc(widget.pollData['documentID'])
           .collection('votes')
-          .where('userId', isEqualTo: userId)
-          .get();
+          .add({
+        'option': selectedOption,
+        'votes': 1,
+        'userId': userId,
+      });
 
-      if (userVoteSnapshot.docs.isEmpty) {
-        // User hasn't voted yet, allow them to vote
-        await FirebaseFirestore.instance
-            .collection('polls')
-            .doc(widget.pollData['documentID'])
-            .collection('votes')
-            .add({
-          'option': selectedOption,
-          'votes': 1,
-          'userId': userId,
-        });
+     
+      await FirebaseFirestore.instance
+          .collection('user_responses')
+          .doc(userId)
+          .collection('responses')
+          .add({
+        'pollId': widget.pollData['documentID'],
+        'selectedOption': selectedOption,
+      });
 
-        setState(() {
-          totalVotes++;
-          hasVoted = true;
-        });
-      } else {
-        // User has already voted
-        // You can show an error message or handle this case as needed
-        print('User has already voted for this poll.');
-      }
+      setState(() {
+        totalVotes++;
+        hasVoted = true;
+      });
     } else {
-      // Handle the case where userId is null or selectedOption is empty
-      print('Error: userId is null, selectedOption is empty, or user has already voted.');
+     
+      print('User has already voted for this poll.');
     }
+  } else {
+    
+    print('Error: userId is null, selectedOption is empty, or user has already voted.');
   }
+}
+
 
   @override
   Widget build(BuildContext context) {
@@ -641,3 +737,98 @@ class _PollDetailsState extends State<PollDetails> {
 //     );
 //   }
 // }
+
+
+
+
+
+class MyTextField extends StatelessWidget {
+  const MyTextField({
+    super.key,
+    required this.hintText,
+    required this.inputType,
+    required this.labelText2,
+    required this.secure1,
+    required this.capital, required this.nameController1,
+  });
+
+  final String hintText;
+  final TextInputType inputType;
+  final String labelText2;
+  final bool secure1;
+  final TextCapitalization capital;
+  final TextEditingController nameController1 ;
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 20),
+      child: TextFormField(
+        controller: nameController1,
+        keyboardType: inputType,
+        obscureText: secure1,
+        textInputAction: TextInputAction.next,
+        textCapitalization: capital,
+        decoration: InputDecoration(
+          contentPadding: const EdgeInsets.all(20),
+          hintText: hintText,
+          hintStyle: const TextStyle(color: Colors.grey),
+          enabledBorder: const OutlineInputBorder(
+            borderSide: BorderSide(color: Colors.grey, width: 1),
+            borderRadius: BorderRadius.all(Radius.circular(16)),
+          ),
+          focusedBorder: const OutlineInputBorder(
+            borderSide: BorderSide(color: Colors.grey, width: 1),
+            borderRadius: BorderRadius.all(Radius.circular(16)),
+          ),
+          labelText: labelText2,
+          labelStyle: const TextStyle(color: Colors.black54),
+        ),
+      ),
+    );
+  }
+}
+
+
+
+
+class Buttonxd extends StatelessWidget {
+  const Buttonxd({
+    Key? key,
+    required this.buttonName,
+    required this.onTap,
+    required this.bgColor,
+    required this.textColor,
+  }) : super(key: key);
+
+  final String buttonName;
+  final VoidCallback onTap;
+  final Color bgColor;
+  final Color textColor;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      height: 60,
+      width: double.infinity,
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(10),
+        color: bgColor,
+      ),
+      child: TextButton(
+        style: ButtonStyle(
+          elevation: MaterialStateProperty.all(12),
+          shadowColor: MaterialStateProperty.all(Colors.black),
+          overlayColor: MaterialStateProperty.resolveWith(
+            (states) => Colors.transparent,
+          ),
+        ),
+        onPressed: onTap,
+        child: Text(
+          buttonName,
+          style: TextStyle(fontSize: 20, color: textColor),
+        ),
+      ),
+    );
+  }
+}
