@@ -3,7 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hunch_app/chat/Chatpage.dart';
-import 'package:hunch_app/Chatpage.dart';
+// import 'package:hunch_app/Chatpage.dart';
 import 'package:hunch_app/Post/Pic.dart';
 import 'package:hunch_app/my%20polls/polls.dart';
 import 'package:hunch_app/screens/LoginPage.dart';
@@ -107,27 +107,27 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
               ],
 
-              title: RichText(
-                  text: TextSpan(
-                      text: "H",
-                      style: GoogleFonts.ubuntu(
-                        textStyle: const TextStyle(
-                          color: Color.fromARGB(255, 224, 2, 2),
-                          fontSize: 24,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                      children: <TextSpan>[
-                    TextSpan(
-                      text: "unch App",
-                      style: GoogleFonts.ubuntu(
-                        textStyle: TextStyle(
-                            fontSize: 24,
-                            fontWeight: FontWeight.bold,
-                            color: Colors.black),
+              // title: RichText(
+              //     text: TextSpan(
+              //         text: "H",
+              //         style: GoogleFonts.ubuntu(
+              //           textStyle: const TextStyle(
+              //             color: Color.fromARGB(255, 224, 2, 2),
+              //             fontSize: 24,
+              //             fontWeight: FontWeight.bold,
+              //           ),
+              //         ),
+              //         children: <TextSpan>[
+              //       TextSpan(
+              //         text: "unch App",
+              //         style: GoogleFonts.ubuntu(
+              //           textStyle: TextStyle(
+              //               fontSize: 24,
+              //               fontWeight: FontWeight.bold,
+              //               color: Colors.black),
 
           title: RichText(
-            text: 
+            text:
               TextSpan(
                 text: "H",
                 style: GoogleFonts.ubuntu(
@@ -135,7 +135,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     color: Color.fromARGB(255, 224, 2, 2),
                     fontSize: 24,
                     fontWeight: FontWeight.bold,
-    
+
                   ),
                 ),
                 children: <TextSpan>[
@@ -148,7 +148,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         color: Colors.black
 
                       ),
-                    ),
+                    ),),
                   ])),
             ),
             drawer: Drawer(
