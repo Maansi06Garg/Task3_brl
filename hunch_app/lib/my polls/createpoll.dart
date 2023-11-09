@@ -251,6 +251,7 @@ class _CreatePollPageState extends State<CreatePollPage> {
 
 
 
+
 class PollDetails extends StatefulWidget {
   final Map<String, dynamic> pollData;
 
@@ -261,38 +262,34 @@ class PollDetails extends StatefulWidget {
 }
 
 class _PollDetailsState extends State<PollDetails> {
-  String selectedOption = ''; 
+  String? selectedOption;
   int totalVotes = 0;
+  String userId = "tdf0aAuP4aWAFjRaKnR5SrgduBx1"; // Replace with the actual user ID
+  bool hasVoted = false;
 
   @override
   void initState() {
     super.initState();
-    
   }
 
   Future<void> getTotalVotes() async {
     QuerySnapshot snapshot = await FirebaseFirestore.instance
         .collection('polls')
-        .doc(widget.pollData['documentID']) 
+        .doc(widget.pollData['documentID'])
         .collection('votes')
         .get();
 
-    // int total = 0;
-    // snapshot.docs.forEach((doc) {
-    //  final data = doc.data() as Map<String, dynamic>; 
-    //  total += (data['votes'] ?? 0).toInt();
-    // });
     int total = 0;
     snapshot.docs.forEach((doc) {
-    final data = doc.data() as Map<String, dynamic>;
-    final votes = data['votes'] ?? 0;
+      final data = doc.data() as Map<String, dynamic>;
+      final votes = data['votes'] ?? 0;
 
-  if (votes is int) {
-    total += votes; 
-  } else if (votes is double) {
-    total += votes.toInt(); 
-  }
-});
+      if (votes is int) {
+        total += votes;
+      } else if (votes is double) {
+        total += votes.toInt();
+      }
+    });
 
     setState(() {
       totalVotes = total;
@@ -300,21 +297,39 @@ class _PollDetailsState extends State<PollDetails> {
   }
 
   Future<void> submitVote() async {
-    if (selectedOption.isNotEmpty) {
-     
-      await FirebaseFirestore.instance
+    if (selectedOption != null && userId != null && !hasVoted) {
+      // Check if the user has already voted
+      QuerySnapshot userVoteSnapshot = await FirebaseFirestore.instance
           .collection('polls')
-          .doc(widget.pollData['documentID']) 
+          .doc(widget.pollData['documentID'])
           .collection('votes')
-          .add({
-        'option': selectedOption,
-        'votes': 1,
-      });
+          .where('userId', isEqualTo: userId)
+          .get();
 
-     
-      setState(() {
-        totalVotes++;
-      });
+      if (userVoteSnapshot.docs.isEmpty) {
+        // User hasn't voted yet, allow them to vote
+        await FirebaseFirestore.instance
+            .collection('polls')
+            .doc(widget.pollData['documentID'])
+            .collection('votes')
+            .add({
+          'option': selectedOption,
+          'votes': 1,
+          'userId': userId,
+        });
+
+        setState(() {
+          totalVotes++;
+          hasVoted = true;
+        });
+      } else {
+        // User has already voted
+        // You can show an error message or handle this case as needed
+        print('User has already voted for this poll.');
+      }
+    } else {
+      // Handle the case where userId is null or selectedOption is empty
+      print('Error: userId is null, selectedOption is empty, or user has already voted.');
     }
   }
 
@@ -337,17 +352,19 @@ class _PollDetailsState extends State<PollDetails> {
                 title: Text(option),
                 value: option,
                 groupValue: selectedOption,
-                onChanged: (value) {
-                  setState(() {
-                    selectedOption = value!;
-                  });
-                },
+                onChanged: hasVoted
+                    ? null
+                    : (value) {
+                        setState(() {
+                          selectedOption = value!;
+                        });
+                      },
               );
             }).toList(),
           ),
           ElevatedButton(
             onPressed: () {
-              submitVote(); 
+              submitVote();
             },
             child: const Text('Submit Vote'),
           ),
@@ -359,3 +376,268 @@ class _PollDetailsState extends State<PollDetails> {
   }
 }
 
+
+
+
+// class PollDetails extends StatefulWidget {
+//   final Map<String, dynamic> pollData;
+
+//   PollDetails(this.pollData);
+
+//   @override
+//   _PollDetailsState createState() => _PollDetailsState();
+// }
+
+// class _PollDetailsState extends State<PollDetails> {
+//   String selectedOption = ''; 
+//   int totalVotes = 0;
+
+//   @override
+//   void initState() {
+//     super.initState();
+    
+//   }
+
+//   Future<void> getTotalVotes() async {
+//     QuerySnapshot snapshot = await FirebaseFirestore.instance
+//         .collection('polls')
+//         .doc(widget.pollData['documentID']) 
+//         .collection('votes')
+//         .get();
+
+//     // int total = 0;
+//     // snapshot.docs.forEach((doc) {
+//     //  final data = doc.data() as Map<String, dynamic>; 
+//     //  total += (data['votes'] ?? 0).toInt();
+//     // });
+//     int total = 0;
+//     snapshot.docs.forEach((doc) {
+//     final data = doc.data() as Map<String, dynamic>;
+//     final votes = data['votes'] ?? 0;
+
+//   if (votes is int) {
+//     total += votes; 
+//   } else if (votes is double) {
+//     total += votes.toInt(); 
+//   }
+// });
+
+//     setState(() {
+//       totalVotes = total;
+//     });
+//   }
+
+//   Future<void> submitVote() async {
+//     if (selectedOption.isNotEmpty) {
+     
+//       await FirebaseFirestore.instance
+//           .collection('polls')
+//           .doc(widget.pollData['documentID']) 
+//           .collection('votes')
+//           .add({
+//         'option': selectedOption,
+//         'votes': 1,
+//       });
+
+     
+//       setState(() {
+//         totalVotes++;
+//       });
+//     }
+//   }
+
+//   @override
+//   Widget build(BuildContext context) {
+//     return Scaffold(
+//       appBar: AppBar(
+//         title: const Text('Poll Details'),
+//       ),
+//       body: Column(
+//         children: [
+//           Text(
+//             widget.pollData['question'],
+//             style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+//           ),
+//           const SizedBox(height: 10),
+//           Column(
+//             children: widget.pollData['options'].map<Widget>((option) {
+//               return RadioListTile<String>(
+//                 title: Text(option),
+//                 value: option,
+//                 groupValue: selectedOption,
+//                 onChanged: (value) {
+//                   setState(() {
+//                     selectedOption = value!;
+//                   });
+//                 },
+//               );
+//             }).toList(),
+//           ),
+//           ElevatedButton(
+//             onPressed: () {
+//               submitVote(); 
+//             },
+//             child: const Text('Submit Vote'),
+//           ),
+//           const SizedBox(height: 10),
+//           Text('Total Votes: $totalVotes'),
+//         ],
+//       ),
+//     );
+//   }
+// }
+
+
+
+
+// class PollDetails extends StatefulWidget {
+//   final Map<String, dynamic> pollData;
+
+//   PollDetails(this.pollData);
+
+//   @override
+//   _PollDetailsState createState() => _PollDetailsState();
+// }
+
+// class _PollDetailsState extends State<PollDetails> {
+//   String selectedOption = '';
+//   int totalVotes = 0;
+//   String userId = "tdf0aAuP4aWAFjRaKnR5SrgduBx1"; 
+
+//   @override
+//   void initState() {
+//     super.initState();
+//   }
+
+//   Future<void> getTotalVotes() async {
+//     QuerySnapshot snapshot = await FirebaseFirestore.instance
+//         .collection('polls')
+//         .doc(widget.pollData['documentID'])
+//         .collection('votes')
+//         .get();
+
+//     int total = 0;
+//     snapshot.docs.forEach((doc) {
+//       final data = doc.data() as Map<String, dynamic>;
+//       final votes = data['votes'] ?? 0;
+
+//       if (votes is int) {
+//         total += votes;
+//       } else if (votes is double) {
+//         total += votes.toInt();
+//       }
+//     });
+
+//     setState(() {
+//       totalVotes = total;
+//     });
+//   }
+
+//   // Future<void> submitVote() async {
+//   //   if (selectedOption.isNotEmpty) {
+//   //     // Check if the user has already voted
+//   //     QuerySnapshot userVoteSnapshot = await FirebaseFirestore.instance
+//   //         .collection('polls')
+//   //         .doc(widget.pollData['documentID'])
+//   //         .collection('votes')
+//   //         .where('tdf0aAuP4aWAFjRaKnR5SrgduBx1', isEqualTo: userId)
+//   //         .get();
+
+//   //     if (userVoteSnapshot.docs.isEmpty) {
+//   //       // User hasn't voted yet, allow them to vote
+//   //       await FirebaseFirestore.instance
+//   //           .collection('polls')
+//   //           .doc(widget.pollData['documentID'])
+//   //           .collection('votes')
+//   //           .add({
+//   //         'option': selectedOption,
+//   //         'votes': 1,
+//   //         'userId': userId,
+//   //       });
+
+//   //       setState(() {
+//   //         totalVotes++;
+//   //       });
+//   //     } else {
+//   //       // User has already voted
+//   //       // You can show an error message or handle this case as needed
+//   //       print('User has already voted for this poll.');
+//   //     }
+//   //   }
+//   // }
+// Future<void> submitVote() async {
+//   if (selectedOption.isNotEmpty && userId != null) {
+//     // Check if the user has already voted
+//     QuerySnapshot userVoteSnapshot = await FirebaseFirestore.instance
+//         .collection('polls')
+//         .doc(widget.pollData['documentID'])
+//         .collection('votes')
+//         .where('userId', isEqualTo: userId)
+//         .get();
+
+//     if (userVoteSnapshot.docs.isEmpty) {
+//       // User hasn't voted yet, allow them to vote
+//       await FirebaseFirestore.instance
+//           .collection('polls')
+//           .doc(widget.pollData['documentID'])
+//           .collection('votes')
+//           .add({
+//         'option': selectedOption,
+//         'votes': 1,
+//         'userId': userId,
+//       });
+
+//       setState(() {
+//         totalVotes++;
+//       });
+//     } else {
+//       // User has already voted
+//       // You can show an error message or handle this case as needed
+//       print('User has already voted for this poll.');
+//     }
+//   } else {
+//     // Handle the case where userId is null or selectedOption is empty
+//     print('Error: userId is null or selectedOption is empty.');
+//   }
+// }
+
+//   @override
+//   Widget build(BuildContext context) {
+//     return Scaffold(
+//       appBar: AppBar(
+//         title: const Text('Poll Details'),
+//       ),
+//       body: Column(
+//         children: [
+//           Text(
+//             widget.pollData['question'],
+//             style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+//           ),
+//           const SizedBox(height: 10),
+//           Column(
+//             children: widget.pollData['options'].map<Widget>((option) {
+//               return RadioListTile<String>(
+//                 title: Text(option),
+//                 value: option,
+//                 groupValue: selectedOption,
+//                 onChanged: (value) {
+//                   setState(() {
+//                     selectedOption = value!;
+//                   });
+//                 },
+//               );
+//             }).toList(),
+//           ),
+//           ElevatedButton(
+//             onPressed: () {
+//               submitVote();
+//             },
+//             child: const Text('Submit Vote'),
+//           ),
+//           const SizedBox(height: 10),
+//           Text('Total Votes: $totalVotes'),
+//         ],
+//       ),
+//     );
+//   }
+// }
