@@ -39,7 +39,7 @@ class _HomeScreenState extends State<HomeScreen> {
     Container(
       color: Colors.amber,
     ),
-    Container(),
+    //Container(),
       // child: ElevatedButton(
       //   onPressed: (){
       //     onFileChanged:(imageUrl){
@@ -49,15 +49,16 @@ class _HomeScreenState extends State<HomeScreen> {
       //   },
       //   child: Text("Image"),
       // ),
-    Chatpage(),
-
     MyPoll(),
-    const Chatpage(),
-    Container(),
-
-
-
     Chatpage(),
+
+   
+    // const Chatpage(),
+    // Container(),
+
+
+
+    //xxChatpage(),
     UserPage()
   ];
 
