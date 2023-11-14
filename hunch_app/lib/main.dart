@@ -6,13 +6,11 @@ import 'package:hunch_app/screens/LoginPage.dart';
 import 'package:hunch_app/firebase_options.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
-
 // // void main()  async{
 // //   WidgetsFlutterBinding.ensureInitialized();
 // //   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
 // //   runApp(const MyApp());
 // // }
-
 
 // void main() async {
 //   WidgetsFlutterBinding.ensureInitialized();
@@ -50,9 +48,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 //     );
 //   }
 // }
-
-
-
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();

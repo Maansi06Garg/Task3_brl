@@ -6,7 +6,6 @@ import 'package:hunch_app/Chatpage.dart';
 import 'package:hunch_app/chat_bubble.dart';
 import 'package:hunch_app/chat_service.dart';
 
-
 // class ChatPage extends StatefulWidget {
 
 //     final String receiverUserEmail;
@@ -17,16 +16,11 @@ import 'package:hunch_app/chat_service.dart';
 //   required this.receiverUserID,
 // }) : super(key: key);
 
-
-
-
 //   // const ChatPage({
-//   //   super.key, 
+//   //   super.key,
 //   //   required this.receiverUserEmail,
 //   //   required this.receiverUserID,
 //   //   });
-
-  
 
 //   @override
 //   State<ChatPage> createState() => _ChatPageState();
@@ -50,18 +44,17 @@ import 'package:hunch_app/chat_service.dart';
 //   @override
 //   Widget build(BuildContext context) {
 //     return Scaffold(
-      
+
 //       appBar: AppBar(
 //         title: Text(widget.receiverUserEmail)
 //       ),
 //       body: Column(
 //         children: [
-//           // messages 
+//           // messages
 //           Expanded(
 //             child: _buildMessageList(),
 //             ),
-            
-            
+
 //              //user input
 //             _buildMessageInput(),
 
@@ -86,20 +79,15 @@ import 'package:hunch_app/chat_service.dart';
 //           return const Text('Loading....');
 //         }
 
-
 //           // Print the data received from Firestore for debugging
 //           print('Messages: ${snapshot.data!.docs}');
 //         return ListView(
-//           children: snapshot.data!.docs.map((document) => 
+//           children: snapshot.data!.docs.map((document) =>
 //           _buildMessageItem(document)).toList(),
 //         );
 //        }
 //        );
 //   }
-
-
-
-
 
 //   // build message item
 //   // Widget _buildMessageItem(DocumentSnapshot document){
@@ -114,11 +102,11 @@ import 'package:hunch_app/chat_service.dart';
 //   //     child: Padding(
 //   //       padding:  const EdgeInsets.all(8.0),
 //   //       child: Column(
-//   //         crossAxisAlignment: 
+//   //         crossAxisAlignment:
 //   //         (data['senderId'] == _firebaseAuth.currentUser!.uid)
 //   //              ? CrossAxisAlignment.end
 //   //              :CrossAxisAlignment.start,
-//   //              mainAxisAlignment: 
+//   //              mainAxisAlignment:
 //   //              (data['senderId'] == _firebaseAuth.currentUser!.uid)
 //   //              ?MainAxisAlignment.end
 //   //              :MainAxisAlignment.start,
@@ -155,11 +143,6 @@ import 'package:hunch_app/chat_service.dart';
 //   );
 // }
 
-
-
-
-
-
 //   // build message input
 //   Widget _buildMessageInput(){
 //     return Row(
@@ -172,12 +155,11 @@ import 'package:hunch_app/chat_service.dart';
 //            ),
 //             obscureText: false,
 
-
 //           )
 //           ),
 
 //           //button
-//           IconButton(onPressed: sendMessage, 
+//           IconButton(onPressed: sendMessage,
 //           icon: const Icon(Icons.arrow_upward,
 //           size: 40,
 //           )
@@ -186,10 +168,7 @@ import 'package:hunch_app/chat_service.dart';
 //     );
 //   }
 
-
-
 // }
-
 
 class Chatscreen extends StatefulWidget {
   const Chatscreen({super.key, required this.Remail, required this.Rid});
@@ -243,7 +222,6 @@ class _ChatscreenState extends State<Chatscreen> {
           return Center(
             child: CircularProgressIndicator(
               color: Colors.orange,
-              
             ),
           );
         }
@@ -320,4 +298,3 @@ class _ChatscreenState extends State<Chatscreen> {
     );
   }
 }
-

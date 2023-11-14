@@ -8,14 +8,13 @@
 // // class Chat extends StatefulWidget {
 // //   const Chat({Key? key}) : super(key: key);
 
-
 // //   @override
 // //   State<Chat> createState() => _ChatState();
 // // }
 
 // // class _ChatState extends State<Chat> {
 
-// //     //instance of auth 
+// //     //instance of auth
 // //   final FirebaseAuth _auth = FirebaseAuth.instance;
 // //   @override
 // //   Widget build(BuildContext context) {
@@ -26,14 +25,13 @@
 // //       ),
 // //       body: _buildUserListItem(),
 
-
 // //     );
 // //   }
 
 // //   // build a list of users except for current logged user
 // //   Widget _buildUserList(DocumentSnapshot document){
 // //     return StreamBuilder<QuerySnapshot>(
-// //       stream: FirebaseFirestore.instance.collection('user').snapshots(), 
+// //       stream: FirebaseFirestore.instance.collection('user').snapshots(),
 // //       builder: (context, snapshot){
 // //         if (snapshot.hasError){
 // //           return const Text('error');
@@ -61,7 +59,7 @@
 // //         onTap: (){
 // //           // pass the clicked user Uid to the chat page
 // //           Navigator.push(
-// //             context, 
+// //             context,
 // //             MaterialPageRoute(builder: (context) => ChatPage(
 // //               receiverUserEmail: data['email'],
 // //               receiverUserID: data['uid'],
@@ -77,9 +75,6 @@
 // //     }
 // //   }
 // // }
-
-
-
 
 // import 'package:cloud_firestore/cloud_firestore.dart';
 // import 'package:firebase_auth/firebase_auth.dart';
@@ -159,10 +154,7 @@
 //   }
 // }
 
-
-
-
-
+import 'package:path/path.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -170,10 +162,10 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:hunch_app/auth_service.dart';
 import 'package:hunch_app/chat_page.dart';
 import 'package:provider/provider.dart';
+import 'package:hunch_app/services/dbhelper.dart';
+import 'package:sqflite/sqflite.dart';
 
-// 
-
-
+//
 
 class Chatpage extends StatefulWidget {
   const Chatpage({super.key});
@@ -186,7 +178,13 @@ class _ChatpageState extends State<Chatpage> {
   String selected = '';
   Map<String, dynamic> cur = {};
   final _auth = FirebaseAuth.instance;
+  late DatabaseHelper _databaseHelper;
   @override
+  void initState() {
+    super.initState();
+    _databaseHelper = DatabaseHelper.instance;
+  }
+
   Widget build(BuildContext context) {
     return Scaffold(
         backgroundColor: Colors.orange.shade100,
@@ -247,7 +245,6 @@ class _ChatpageState extends State<Chatpage> {
           return Center(
             child: CircularProgressIndicator(
               color: Colors.orange,
-              
             ),
           );
         } else {

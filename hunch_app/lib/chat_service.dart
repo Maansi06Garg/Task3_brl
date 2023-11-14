@@ -2,7 +2,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:hunch_app/model/message.dart';
-import 'dart:ui';
 
 // class ChatService extends ChangeNotifier{
 
@@ -27,9 +26,7 @@ import 'dart:ui';
 //       timestamp: timestamp,
 //       message: message,
 
-
 //     );
-
 
 //    // construct chat room id from current user id and receiver id (sorted to ensure uniqeness )
 //    List<String> ids = [currentUserId , receiverId];
@@ -43,8 +40,6 @@ import 'dart:ui';
 //    .doc(chatRoomId)
 //    .collection('message')
 //    .add(newMessage.toMap());
-
-
 
 //   }
 
@@ -65,11 +60,6 @@ import 'dart:ui';
 
 // }
 
-
-
-
-
-
 class ChatService extends ChangeNotifier {
   final _auth = FirebaseAuth.instance;
   final _store = FirebaseFirestore.instance;
@@ -77,13 +67,14 @@ class ChatService extends ChangeNotifier {
   void sendMessage(String Remail, String message) async {
     final currentuserId = _auth.currentUser!.uid;
     final currentUserEmail = _auth.currentUser!.email.toString();
-    final time = Timestamp.now();
+    // final time = Timestamp.now();
     Message newMessage = Message(
-        receiverId: Remail,
-        message: message,
-        senderEmail: currentUserEmail,
-        senderId: currentuserId,
-        timestamp: time);
+      receiverId: Remail,
+      message: message,
+      senderEmail: currentUserEmail,
+      senderId: currentuserId,
+      // timestamp: time
+    );
 
     List<String> ids = [currentuserId, Remail];
     ids.sort();
@@ -96,7 +87,6 @@ class ChatService extends ChangeNotifier {
   }
 
   Stream<QuerySnapshot> getMessages(String uid2, String uid1) {
-    
     List<String> ids = [uid1, uid2];
     ids.sort();
     String room = ids.join("-");

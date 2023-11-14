@@ -12,12 +12,12 @@ class EmailVerificationScreen extends StatefulWidget {
 }
 
 class _EmailVerificationScreenState extends State<EmailVerificationScreen> {
-  bool isEmailVerified = false;  //use store and track whether email verifyb hua ki nhi
+  bool isEmailVerified =
+      false; //use store and track whether email verifyb hua ki nhi
   Timer? timer;
-  
+
   @override
   void initState() {
-    
     super.initState();
     FirebaseAuth.instance.currentUser?.sendEmailVerification();
     timer =
@@ -32,17 +32,18 @@ class _EmailVerificationScreenState extends State<EmailVerificationScreen> {
     });
 
     if (isEmailVerified) {
-      
       ScaffoldMessenger.of(context)
           .showSnackBar(SnackBar(content: Text("Email Successfully Verified")));
-          
-// ignore: use_build_context_synchronously
-Navigator.pushAndRemoveUntil(
-  context,
-  MaterialPageRoute(builder: (context) => Login()),  //context=It's used to determine where to perform the navigation operation.
-  (Route<dynamic> route) => false, // This predicate keeps no routes in the stack
-);
 
+// ignore: use_build_context_synchronously
+      Navigator.pushAndRemoveUntil(
+        context,
+        MaterialPageRoute(
+            builder: (context) =>
+                Login()), //context=It's used to determine where to perform the navigation operation.
+        (Route<dynamic> route) =>
+            false, // This predicate keeps no routes in the stack
+      );
 
       timer?.cancel();
     }
@@ -50,7 +51,6 @@ Navigator.pushAndRemoveUntil(
 
   @override
   void dispose() {
-    
     timer?.cancel();
     super.dispose();
   }
@@ -85,8 +85,7 @@ Navigator.pushAndRemoveUntil(
               const Center(child: CircularProgressIndicator()),
               const SizedBox(height: 8),
               const Padding(
-                padding: EdgeInsets
-                    .symmetric(horizontal: 32.0),
+                padding: EdgeInsets.symmetric(horizontal: 32.0),
                 child: Center(
                   child: Text(
                     'Verifying email....',
@@ -96,8 +95,7 @@ Navigator.pushAndRemoveUntil(
               ),
               const SizedBox(height: 57),
               Padding(
-                padding: const EdgeInsets
-                    .symmetric(horizontal: 32.0),
+                padding: const EdgeInsets.symmetric(horizontal: 32.0),
                 child: ElevatedButton(
                   child: const Text('Resend'),
                   onPressed: () {
