@@ -51,7 +51,7 @@ class AuthService extends ChangeNotifier{
         //if user is new, then only set the hunches and polls to 0
         //else if an existing user is logging in, let it be as it was
         UserModel userModel = await UserModel(
-            username: userCredential.user!.displayName ?? 'Anonymous',
+            username: userCredential.user!.displayName ?? 'Anonymouss',
             profilePic: userCredential.user!.photoURL ?? '',
             uid: userCredential.user!.uid,
             hunches: 0,
