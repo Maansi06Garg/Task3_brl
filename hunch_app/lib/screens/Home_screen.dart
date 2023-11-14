@@ -150,7 +150,9 @@ class _HomeScreenState extends State<HomeScreen> {
 
                       ),
                     ),),
-                  ])),
+                  ]
+    )
+    ),
             ),
             drawer: Drawer(
               child: ListView(
@@ -223,9 +225,11 @@ class _HomeScreenState extends State<HomeScreen> {
                     Icons.person,
                     color: Color.fromARGB(255, 255, 255, 255),
                   ),
-                ]),
+                ]
+                ),
           ),
-        ));
+        )
+        );
   }
 }
 
